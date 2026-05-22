@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Immanuel · AI Content Production Specialist</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #080a0f;
+      --surface: #0f1218;
+      --card: #141820;
+      --border: rgba(255,255,255,0.07);
+      --accent: #00e5ff;
+      --accent2: #7b61ff;
+      --gold: #ffd166;
+      --text: #f0f2f8;
+      --muted: #7a8099;
+      --glow: rgba(0,229,255,0.15);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 16px 60px;
+      overflow-x: hidden;
+    }
+
+    /* Background grid */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Glow orbs */
+    body::after {
+      content: '';
+      position: fixed;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(0,229,255,0.08) 0%, rgba(123,97,255,0.05) 40%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 480px;
+      padding-top: 60px;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      text-align: center;
+      margin-bottom: 36px;
+      animation: fadeUp 0.7s ease both;
+    }
+
+    .avatar-wrap {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+
+    .avatar {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -1px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .avatar-ring {
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: conic-gradient(var(--accent), var(--accent2), var(--gold), var(--accent));
+      animation: spin 4s linear infinite;
+      z-index: 0;
+    }
+
+    .avatar-ring::after {
+      content: '';
+      position: absolute;
+      inset: 3px;
+      border-radius: 50%;
+      background: var(--bg);
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0,229,255,0.1);
+      border: 1px solid rgba(0,229,255,0.25);
+      border-radius: 999px;
+      padding: 4px 12px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 1.5s ease infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.7); }
+    }
+
+    .name {
+      font-family: 'Syne', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+      background: linear-gradient(135deg, #fff 40%, var(--muted));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .title {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      margin-bottom: 16px;
+    }
+
+    .tags {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 5px 12px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    /* ── LINKS ── */
+    .section-label {
+      font-family: 'Syne', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+      padding-left: 4px;
+    }
+
+    .links-section {
+      margin-bottom: 28px;
+      animation: fadeUp 0.7s 0.15s ease both;
+    }
+
+    .link-btn {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+      padding: 16px 20px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 10px;
+      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .link-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0,229,255,0.04), transparent);
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+
+    .link-btn:hover {
+      border-color: rgba(0,229,255,0.3);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(0,229,255,0.08);
+    }
+
+    .link-btn:hover::before { opacity: 1; }
+
+    .link-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .link-text { flex: 1; }
+    .link-title { display: block; font-size: 14px; font-weight: 600; }
+    .link-sub { display: block; font-size: 11px; color: var(--muted); margin-top: 1px; }
+
+    .link-arrow {
+      color: var(--muted);
+      font-size: 16px;
+      transition: transform 0.2s;
+    }
+    .link-btn:hover .link-arrow { transform: translateX(3px); color: var(--accent); }
+
+    /* Icon backgrounds */
+    .icon-ig { background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+    .icon-behance { background: #0057ff; }
+    .icon-linkedin { background: #0a66c2; }
+    .icon-email { background: linear-gradient(135deg, var(--accent2), var(--accent)); }
+
+    /* ── TOOLS ── */
+    .tools-section {
+      margin-bottom: 28px;
+      animation: fadeUp 0.7s 0.25s ease both;
+    }
+
+    .tools-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tool-chip {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+      transition: all 0.2s;
+    }
+
+    .tool-chip:hover {
+      border-color: rgba(123,97,255,0.4);
+      color: var(--text);
+      background: rgba(123,97,255,0.08);
+    }
+
+    /* ── SERVICES ── */
+    .services-section {
+      margin-bottom: 28px;
+      animation: fadeUp 0.7s 0.3s ease both;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .service-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 12px;
+      text-align: center;
+      transition: all 0.25s;
+    }
+
+    .service-card:hover {
+      border-color: rgba(0,229,255,0.2);
+      transform: translateY(-2px);
+    }
+
+    .service-icon { font-size: 22px; margin-bottom: 8px; }
+    .service-name { font-size: 11px; font-weight: 600; color: var(--text); }
+
+    /* ── FOOTER ── */
+    .footer {
+      text-align: center;
+      margin-top: 8px;
+      animation: fadeUp 0.7s 0.4s ease both;
+    }
+
+    .footer-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0,229,255,0.06);
+      border: 1px solid rgba(0,229,255,0.15);
+      border-radius: 999px;
+      padding: 8px 18px;
+      font-size: 12px;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 16px;
+    }
+
+    .footer-credit {
+      font-size: 11px;
+      color: rgba(122, 128, 153, 0.4);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="avatar-wrap">
+      <div class="avatar-ring"></div>
+      <div class="avatar">IC</div>
+    </div>
+    <div class="badge">Open for Remote Work 🌏</div>
+    <h1 class="name">Immanuel</h1>
+    <p class="title">AI Content Production Specialist</p>
+    <div class="tags">
+      <span class="tag">🎬 UGC</span>
+      <span class="tag">🤖 Avatar Videos</span>
+      <span class="tag">📦 Product Ads</span>
+    </div>
+  </div>
+
+  <!-- MAIN LINKS -->
+  <div class="links-section">
+    <p class="section-label">Find Me</p>
+
+    <a href="https://instagram.com/imm.creates" target="_blank" class="link-btn">
+      <div class="link-icon icon-ig">📸</div>
+      <div class="link-text">
+        <span class="link-title">Instagram</span>
+        <span class="link-sub">@imm.creates · 9+ AI content posts live</span>
+      </div>
+      <span class="link-arrow">→</span>
+    </a>
+
+    <a href="https://behance.net" target="_blank" class="link-btn">
+      <div class="link-icon icon-behance">🎨</div>
+      <div class="link-text">
+        <span class="link-title">Behance Portfolio</span>
+        <span class="link-sub">AI UGC & Product Ads showcase</span>
+      </div>
+      <span class="link-arrow">→</span>
+    </a>
+
+    <a href="https://linkedin.com" target="_blank" class="link-btn">
+      <div class="link-icon icon-linkedin">💼</div>
+      <div class="link-text">
+        <span class="link-title">LinkedIn</span>
+        <span class="link-sub">Professional profile & experience</span>
+      </div>
+      <span class="link-arrow">→</span>
+    </a>
+
+    <a href="mailto:your@email.com" class="link-btn">
+      <div class="link-icon icon-email">✉️</div>
+      <div class="link-text">
+        <span class="link-title">Work With Me</span>
+        <span class="link-sub">Brand deals · Freelance · Collab</span>
+      </div>
+      <span class="link-arrow">→</span>
+    </a>
+  </div>
+
+  <!-- SERVICES -->
+  <div class="services-section">
+    <p class="section-label">Services</p>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">🎬</div>
+        <div class="service-name">UGC Videos</div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🤖</div>
+        <div class="service-name">Avatar Ads</div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">📦</div>
+        <div class="service-name">Product Ads</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOOLS -->
+  <div class="tools-section">
+    <p class="section-label">AI Tools Stack</p>
+    <div class="tools-grid">
+      <span class="tool-chip">Claude AI</span>
+      <span class="tool-chip">ChatGPT</span>
+      <span class="tool-chip">Gemini</span>
+      <span class="tool-chip">Google Flow</span>
+      <span class="tool-chip">HeyGen</span>
+      <span class="tool-chip">CapCut</span>
+      <span class="tool-chip">Canva</span>
+      <span class="tool-chip">Photoshop</span>
+      <span class="tool-chip">Publer</span>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-status">
+      ⚡ Transforming brands with AI
+    </div>
+    <p class="footer-credit">immcreates.github.io</p>
+  </div>
+
+</div>
+</body>
+</html>
